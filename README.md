@@ -5,7 +5,7 @@
 ![](https://img.shields.io/github/forks/llm-red-team/zhipuai-agent-to-openai.svg)
 ![](https://img.shields.io/docker/pulls/vinlic/zhipuai-agent-to-openai.svg)
 
-这是一个将[智谱清言](https://chatglm.cn/)官方智能体API转换为OpenAI兼容协议的网关👋，帮助开发者们降低接入API的门槛。
+这是一个将[智谱清言](https://chatglm.cn/)官方[智能体API](https://zhipu-ai.feishu.cn/wiki/X8ykw4IXpieCOxkYxbrcxT9vn5f)转换为OpenAI兼容协议的网关👋，帮助开发者们降低接入API的门槛。
 
 ## 目录
 
