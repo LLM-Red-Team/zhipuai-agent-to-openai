@@ -1,6 +1,26 @@
 # 智谱清言智能体API转OpenAI接口
 
+[![](https://img.shields.io/github/license/llm-red-team/zhipuai-agent-to-openai.svg)](LICENSE)
+![](https://img.shields.io/github/stars/llm-red-team/zhipuai-agent-to-openai.svg)
+![](https://img.shields.io/github/forks/llm-red-team/zhipuai-agent-to-openai.svg)
+![](https://img.shields.io/docker/pulls/vinlic/zhipuai-agent-to-openai.svg)
+
 这是一个将[智谱清言](https://chatglm.cn/)智能体API转换为OpenAI兼容协议的网关👋。
+
+## 目录
+
+* [APIKey获取](#APIKey获取)
+* [Docker部署](#Docker部署)
+  * [Docker-compose部署](#Docker-compose部署)
+* [原生部署](#原生部署)
+* [接口列表](#接口列表)
+  * [对话补全](#对话补全)
+  * [AI绘图](#AI绘图)
+  * [文档解读](#文档解读)
+  * [图像解析](#图像解析)
+* [注意事项](#注意事项)
+  * [Nginx反代优化](#Nginx反代优化)
+* [Star History](#star-history)
 
 ## 特性
 
@@ -12,7 +32,7 @@
 - ✅ 支持长文档解读
 - ✅ 支持多模态图像解析
 
-## API Key获取
+## APIKey获取
 
 前往智谱清言智能体[创作者中心](https://chatglm.cn/developersPanel/apiSet)创建API Key，并使用`.`拼接Key与Secret为API Key，如下所示：
 
@@ -20,7 +40,101 @@
 21a**********9a0.2f****************************37
 ```
 
-## 对话补全
+## Docker部署
+
+请准备一台具有公网IP的服务器并将8000端口开放。
+
+拉取镜像并启动服务
+
+```shell
+docker run -it -d --init --name zhipuai-agent-to-openai -p 8000:8000 -e TZ=Asia/Shanghai vinlic/zhipuai-agent-to-openai:latest
+```
+
+查看服务实时日志
+
+```shell
+docker logs -f zhipuai-agent-to-openai
+```
+
+重启服务
+
+```shell
+docker restart zhipuai-agent-to-openai
+```
+
+停止服务
+
+```shell
+docker stop zhipuai-agent-to-openai
+```
+
+### Docker-compose部署
+
+```yaml
+version: '3'
+
+services:
+  zhipuai-agent-to-openai:
+    container_name: zhipuai-agent-to-openai
+    image: vinlic/zhipuai-agent-to-openai:latest
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - TZ=Asia/Shanghai
+```
+
+## 原生部署
+
+请准备一台具有公网IP的服务器并将8000端口开放。
+
+请先安装好Node.js环境并且配置好环境变量，确认node命令可用。
+
+安装依赖
+
+```shell
+npm i
+```
+
+安装PM2进行进程守护
+
+```shell
+npm i -g pm2
+```
+
+编译构建，看到dist目录就是构建完成
+
+```shell
+npm run build
+```
+
+启动服务
+
+```shell
+pm2 start dist/index.js --name "zhipuai-agent-to-openai"
+```
+
+查看服务实时日志
+
+```shell
+pm2 logs zhipuai-agent-to-openai
+```
+
+重启服务
+
+```shell
+pm2 reload zhipuai-agent-to-openai
+```
+
+停止服务
+
+```shell
+pm2 stop zhipuai-agent-to-openai
+```
+
+## 接口列表
+
+### 对话补全
 
 对话补全接口，与openai的 [chat-completions-api](https://platform.openai.com/docs/guides/text-generation/chat-completions-api) 兼容。
 
@@ -77,7 +191,7 @@ Authorization: Bearer [API Key]
 }
 ```
 
-## AI绘图
+### AI绘图
 
 对话补全接口，与openai的 [images-create-api](https://platform.openai.com/docs/api-reference/images/create) 兼容。
 
@@ -110,7 +224,7 @@ Authorization: Bearer [API Key]
 }
 ```
 
-## 文档解读
+### 文档解读
 
 提供一个可访问的文件URL或者BASE64_URL进行解析。
 
@@ -174,7 +288,7 @@ Authorization: Bearer [API Key]
 }
 ```
 
-## 图像解析
+### 图像解析
 
 提供一个可访问的图像URL或者BASE64_URL进行解析。
 
@@ -257,3 +371,4 @@ tcp_nodelay on;
 keepalive_timeout 120;
 ```
 
+[![Star History Chart](https://api.star-history.com/svg?repos=LLM-Red-Team/zhipuai-agent-to-openai&type=Date)](https://star-history.com/#LLM-Red-Team/zhipuai-agent-to-openai&Date)
